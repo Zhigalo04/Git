@@ -6,7 +6,7 @@
     <title>Details</title>
     <style>
         button {
-            margin: 10px 5px; /* Верхний и нижний отступ 10px, левый и правый 5px */
+            margin: 10px 5px;
             padding: 10px;
             background-color: #007BFF;
             color: white;
@@ -18,9 +18,9 @@
             background-color: #0056b3;
         }
         img {
-            max-width: 100%; /* Адаптивное изображение */
+            max-width: 100%;
             height: auto;
-            margin-bottom: 30px; /* Отступ снизу для изображения */
+            margin-bottom: 30px;
         }
     </style>
     <link rel="stylesheet" href="styles.css">
@@ -34,50 +34,45 @@
                 document.getElementById('shirt-description').innerText = shirtData.description;
 
                 const colorsContainer = document.getElementById('colors');
-                let selectedColor = null; // Переменная для хранения выбранного цвета
+                let selectedColor = null;
 
-                // Добавление кнопок "Front" и "Back"
                 const frontButton = document.createElement('button');
                 frontButton.innerText = 'Front';
                 frontButton.onclick = () => {
-                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].front; // Изображение передней стороны
+                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].front;
                 };
                 colorsContainer.appendChild(frontButton);
 
                 const backButton = document.createElement('button');
                 backButton.innerText = 'Back';
                 backButton.onclick = () => {
-                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].back; // Изображение задней стороны
+                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].back;
                 };
                 colorsContainer.appendChild(backButton);
 
-                // Генерация кнопок для цветов
                 for (const color in shirtData.colors) {
                     const button = document.createElement('button');
                     button.innerText = color;
-                    button.style.backgroundColor = color; // Установка цвета фона кнопки
-                    button.style.color = 'black'; // Установка цвета текста
+                    button.style.backgroundColor = color;
+                    button.style.color = 'black';
                     button.onclick = () => {
-                        selectedColor = color; // Сохраняем выбранный цвет
+                        selectedColor = color;
                         
-                        // Установка изображений для выбранного цвета
-                        document.getElementById('shirt-image').src = shirtData.colors[color].front; // Изображение передней стороны
+                        document.getElementById('shirt-image').src = shirtData.colors[color].front;
                     };
-                    colorsContainer.appendChild(button); // Добавляем кнопку цвета
+                    colorsContainer.appendChild(button);
                 }
 
-                // Изображение футболки
                 const shirtImage = document.createElement('img');
                 shirtImage.id = 'shirt-image';
-                shirtImage.src = shirtData.default.front; // Устанавливаем изображение по умолчанию
+                shirtImage.src = shirtData.default.front;
                 shirtImage.alt = shirtData.name;
                 colorsContainer.appendChild(shirtImage);
 
-                // Цена футболки
                 const shirtPrice = document.createElement('p');
                 shirtPrice.id = 'shirt-price';
                 shirtPrice.innerText = shirtData.price;
-                shirtPrice.style.fontWeight = 'bold'; // Сделать текст жирным
+                shirtPrice.style.fontWeight = 'bold';
                 colorsContainer.appendChild(shirtPrice);
             } else {
                 document.getElementById('shirt-title').innerText = "Футболка не найдена";
