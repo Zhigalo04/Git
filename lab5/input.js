@@ -54,7 +54,6 @@ function changeColor () {
 
 function pinnedDrag(event) {
     if (isPinned && selectedElement) {
-        selectedElement.style.position = 'absolute';
         selectedElement.style.left = `${event.clientX - offset.x}px`;
         selectedElement.style.top = `${event.clientY - offset.y}px`;
     }
