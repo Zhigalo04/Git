@@ -1,4 +1,3 @@
-// Получаем все элементы с классом target
 const targets = document.querySelectorAll('.target');
 
 let selectedElement = null;
@@ -6,13 +5,11 @@ let offset = { x: 0, y: 0 };
 let initialPosition = { left: 0, top: 0 };
 let isPinned = false;
 
-// Функция, чтобы начать перетаскивание
 function startDrag(event) {
     selectedElement = event.target;
     offset.x = event.clientX - selectedElement.getBoundingClientRect().left;
     offset.y = event.clientY - selectedElement.getBoundingClientRect().top;
 
-    // Запоминаем начальную позицию
     initialPosition.left = selectedElement.style.left || '0px';
     initialPosition.top = selectedElement.style.top || '0px';
 
@@ -20,7 +17,6 @@ function startDrag(event) {
     document.addEventListener('mouseup', endDrag);
 }
 
-// Функция, чтобы перетаскивать элемент
 function drag(event) {
     if (selectedElement) {
         selectedElement.style.position = 'absolute';
@@ -29,7 +25,6 @@ function drag(event) {
     }
 }
 
-// Функция, чтобы закончить перетаскивание
 function endDrag() {
     if (selectedElement) {
         document.removeEventListener('mousemove', drag);
@@ -38,7 +33,6 @@ function endDrag() {
     }
 }
 
-// Функция, чтобы приклеить элемент к мыши
 function pinElement(event) {
     if (event.target.classList.contains('target')) {
         selectedElement = event.target;
@@ -46,14 +40,12 @@ function pinElement(event) {
         initialPosition.top = selectedElement.style.top || '0px';
         isPinned = true;
 
-        // Изменение цвета
         selectedElement.style.color = 'green'; 
         document.addEventListener('mousemove', pinnedDrag);
         document.addEventListener('click', unpinElement);
     }
 }
 
-// Функция, чтобы перетаскивать приклеенный элемент
 function pinnedDrag(event) {
     if (isPinned && selectedElement) {
         selectedElement.style.position = 'absolute';
@@ -62,7 +54,6 @@ function pinnedDrag(event) {
     }
 }
 
-// Функция, чтобы открепить элемент
 function unpinElement() {
     if (isPinned) {
         isPinned = false;
@@ -73,7 +64,6 @@ function unpinElement() {
     }
 }
 
-// Функция для возврата элемента на исходную позицию
 function cancelDrag() {
     if (selectedElement) {
         selectedElement.style.left = initialPosition.left;
@@ -82,13 +72,11 @@ function cancelDrag() {
     }
 }
 
-// Обработчики событий для элементов
 targets.forEach(target => {
     target.addEventListener('mousedown', startDrag);
     target.addEventListener('dblclick', pinElement);
 });
 
-// Обработчик события для клавиши Esc
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         cancelDrag();
