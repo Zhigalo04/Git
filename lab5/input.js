@@ -46,10 +46,6 @@ function pinElement(event) {
         initialPosition.top = selectedElement.style.top || '0px';
         isPinned = true;
 
-        // Изменение цвета
-        selectedElement.style.color = 'white'; 
-        document.addEventListener('mousemove', pinnedDrag);
-        document.addEventListener('click', unpinElement);
     }
 }
 
