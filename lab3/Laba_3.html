@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Наши майки</title>
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .shirt-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .shirt {
+            border: 3px solid #7488ed;
+            border-radius: 10px;
+            width: 200px;
+            background-color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        .shirt img {
+            width: 100%;
+            height: auto;
+        }
+        .shirt h3 {
+            margin: 10px 0;
+        }
+        .shirt p {
+            margin: 5px 0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-spacing {
+            margin: 0 5px;
+        }
+        @media (max-width: 768px) {
+            .shirt {
+                width: calc(50% - 20px);
+            }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border: 3px solid #7488ed;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Наши майки</h1>
+<div class="shirt-container" id="shirtContainer"></div>
+
+<!-- Модальное окно -->
+<div id="shirtModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <img id="modalShirtImage" src="" alt="" style="width: 100%; height: auto;">
+        <h3 id="modalShirtName"></h3>
+        <p id="modalShirtDescription"></p>
+        <p id="modalShirtPrice"></p>
+    </div>
+</div>
+
+<script src="shirts.js"></script>
+<script>
+    const shirtContainer = document.getElementById('shirtContainer');
+    const modal = document.getElementById('shirtModal');
+    const closeModal = document.getElementById('closeModal');
+
+    shirts.forEach(shirt => {
+        const shirtDiv = document.createElement('div');
+        shirtDiv.className = 'shirt';
+
+        const shirtImage = Object.values(shirt.colors)[0]?.front || shirt.default.front;
+        const shirtName = shirt.name || 'Без названия';
+        const shirtDescription = shirt.description || 'Описание отсутствует';
+        const shirtPrice = shirt.price || 'Цена не указана';
+        const colorCount = Object.keys(shirt.colors).length;
+
+        const img = document.createElement('img');
+        img.src = shirtImage;
+        img.alt = shirtName;
+        img.onerror = function() {
+            this.src = 'shirt_images/default-m-front.png';
+        };
+
+        const nameElement = document.createElement('h3');
+        nameElement.innerText = shirtName;
+
+        const colorCountElement = document.createElement('p');
+        colorCountElement.innerText = `Доступно в ${colorCount} цветах`;
+
+        const quickViewButton = document.createElement('button');
+        quickViewButton.className = 'quick-view button-spacing';
+        quickViewButton.innerText = 'Quick View';
+        quickViewButton.dataset.name = shirtName;
+        quickViewButton.dataset.description = shirtDescription;
+        quickViewButton.dataset.price = shirtPrice;
+        quickViewButton.dataset.image = shirtImage;
+
+        const seePageButton = document.createElement('button');
+        seePageButton.className = 'button-spacing';
+        seePageButton.innerText = 'See Page';
+        // seePageButton.setAttribute('href', 'details.html');
+        seePageButton.onclick = function() {
+            const shirtData = {
+                name: shirtName,
+                description: shirtDescription,
+                price: shirtPrice,
+                colors: shirt.colors,
+                default: shirt.default
+            };
+            localStorage.setItem('shirtData', JSON.stringify(shirtData));
+            window.location.href = 'details.html'; // Переход на страницу деталей
+        };
+
+        shirtDiv.appendChild(img);
+        shirtDiv.appendChild(nameElement);
+        shirtDiv.appendChild(colorCountElement);
+        shirtDiv.appendChild(quickViewButton);
+        shirtDiv.appendChild(seePageButton);
+
+        shirtContainer.appendChild(shirtDiv);
+    });
+
+    shirtContainer.addEventListener('click', function (e) {
+        if (e.target.classList.contains('quick-view')) {
+            const name = e.target.dataset.name;
+            const description = e.target.dataset.description;
+            const price = e.target.dataset.price;
+            const image = e.target.dataset.image;
+
+            document.getElementById('modalShirtName').innerText = name;
+            document.getElementById('modalShirtDescription').innerText = description;
+            document.getElementById('modalShirtPrice').innerText = price;
+            document.getElementById('modalShirtImage').src = image;
+
+            modal.style.display = 'block';
+        }
+    });
+
+    closeModal.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
