@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <style>
+        button {
+            margin: 10px 5px; /* Верхний и нижний отступ 10px, левый и правый 5px */
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: 2px solid grey;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            max-width: 100%; /* Адаптивное изображение */
+            height: auto;
+            margin-bottom: 30px; /* Отступ снизу для изображения */
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="shirts.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shirtData = JSON.parse(localStorage.getItem('shirtData'));
+
+            if (shirtData) {
+                document.getElementById('shirt-title').innerText = shirtData.name;
+                document.getElementById('shirt-description').innerText = shirtData.description;
+
+                const colorsContainer = document.getElementById('colors');
+                let selectedColor = null; // Переменная для хранения выбранного цвета
+
+                // Добавление кнопок "Front" и "Back"
+                const frontButton = document.createElement('button');
+                frontButton.innerText = 'Front';
+                frontButton.onclick = () => {
+                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].front; // Изображение передней стороны
+                };
+                colorsContainer.appendChild(frontButton);
+
+                const backButton = document.createElement('button');
+                backButton.innerText = 'Back';
+                backButton.onclick = () => {
+                    document.getElementById('shirt-image').src = shirtData.colors[selectedColor].back; // Изображение задней стороны
+                };
+                colorsContainer.appendChild(backButton);
+
+                // Генерация кнопок для цветов
+                for (const color in shirtData.colors) {
+                    const button = document.createElement('button');
+                    button.innerText = color;
+                    button.style.backgroundColor = color; // Установка цвета фона кнопки
+                    button.style.color = 'black'; // Установка цвета текста
+                    button.onclick = () => {
+                        selectedColor = color; // Сохраняем выбранный цвет
+                        
+                        // Установка изображений для выбранного цвета
+                        document.getElementById('shirt-image').src = shirtData.colors[color].front; // Изображение передней стороны
+                    };
+                    colorsContainer.appendChild(button); // Добавляем кнопку цвета
+                }
+
+                // Изображение футболки
+                const shirtImage = document.createElement('img');
+                shirtImage.id = 'shirt-image';
+                shirtImage.src = shirtData.default.front; // Устанавливаем изображение по умолчанию
+                shirtImage.alt = shirtData.name;
+                colorsContainer.appendChild(shirtImage);
+
+                // Цена футболки
+                const shirtPrice = document.createElement('p');
+                shirtPrice.id = 'shirt-price';
+                shirtPrice.innerText = shirtData.price;
+                shirtPrice.style.fontWeight = 'bold'; // Сделать текст жирным
+                colorsContainer.appendChild(shirtPrice);
+            } else {
+                document.getElementById('shirt-title').innerText = "Футболка не найдена";
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1 id="shirt-title"></h1>
+    <p id="shirt-description"></p>
+    <p id="shirt-price"></p>
+    <div id="colors"></div>
+</body>
+</html>
