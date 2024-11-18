@@ -39,18 +39,20 @@ function pinElement(event) {
         initialPosition.left = selectedElement.style.left || '0px';
         initialPosition.top = selectedElement.style.top || '0px';
         isPinned = true;
+        selectedElement.style['background-color'] = 'green';
+        
+        //changeColor();
 
         document.addEventListener('mousemove', pinnedDrag);
         document.addEventListener('click', unpinElement);
     }
 }
 
-function changeColor () {
-    if (isPinned) {
-        isPinned = true;
-        selectedElement.style.backgroundcolor = 'green';
-}
-}
+// function changeColor () {
+//     if (isPinned) {
+//         selectedElement.style.backgroundcolor = 'green';
+// } else selectedElement.style.backgroundcolor = 'red';
+// }
 
 function pinnedDrag(event) {
     if (isPinned && selectedElement) {
@@ -59,10 +61,12 @@ function pinnedDrag(event) {
     }
 }
 
-function unpinElement() {
+function unpinElement(e) {
     if (isPinned) {
         isPinned = false;
-        selectedElement.style.color = 'red'; // Вернуть цвет
+        //changeColor();
+        console.log(selectedElement)
+        e.target.style.background = 'red'; // Вернуть цвет
         document.removeEventListener('mousemove', pinnedDrag);
         document.removeEventListener('click', unpinElement);
         selectedElement = null;
