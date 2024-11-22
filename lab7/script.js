@@ -2,9 +2,9 @@ const drawingArea = document.getElementById('drawingArea');
 const shapeSelector = document.getElementById('shapeSelector');
 let isDrawing = false;
 let startX, startY;
-let currentColor = 'red'; // Установите начальный цвет
+let currentColor = 'red';
 
-// Установка текущего цвета
+
 document.querySelectorAll('.color-button').forEach(button => {
     button.addEventListener('click', function() {
         currentColor = this.getAttribute('data-color');
@@ -84,7 +84,6 @@ drawingArea.addEventListener('mouseleave', () => {
     isDrawing = false;
 });
 
-// Обработчик двойного клика для удаления фигур
 drawingArea.addEventListener('dblclick', (e) => {
     const shapes = document.elementsFromPoint(e.clientX, e.clientY);
     const clickedShape = shapes.find(shape => shape.tagName === 'circle' || shape.tagName === 'rect');

@@ -15,7 +15,7 @@ select {
     width: 30px;
     height: 30px;
     border: 1px solid #000;
-    border-radius: 50%; /* Округлые кнопки */
+    border-radius: 50%;
     margin: 5px;
     cursor: pointer;
     display: inline-block; /* Расположение в одну линию */
