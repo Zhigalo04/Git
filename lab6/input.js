@@ -7,7 +7,7 @@ let isPinned = false;
 
 function startDrag(event) {
     if (event.touches && event.touches.length > 1) {
-        // Если два пальца на экране - отключаем перетаскивание
+        // Проверяем распальцовку
         cancelDrag();
         return;
     }
@@ -72,12 +72,12 @@ function pinnedDrag(event) {
 function unpinElement() {
     if (isPinned && selectedElement) {
         isPinned = false;
-        selectedElement.style.background = 'red'; // Вернуть цвет объекта
+        selectedElement.style.background = 'red'; 
         document.removeEventListener('mousemove', pinnedDrag);
         document.removeEventListener('click', unpinElement);
         document.removeEventListener('touchmove', pinnedDrag);
         document.removeEventListener('touchend', unpinElement);
-        selectedElement = null; // Установить в null после использования
+        selectedElement = null; 
     }
 }
 
@@ -85,7 +85,7 @@ function cancelDrag() {
     if (selectedElement) {
         selectedElement.style.left = initialPosition.left;
         selectedElement.style.top = initialPosition.top;
-        selectedElement.style.background = 'red'; // Вернуть цвет объекта
+        selectedElement.style.background = 'red'; 
         selectedElement = null;
     }
 }
@@ -101,7 +101,7 @@ function init() {
         if (event.key === 'Escape') {
             cancelDrag();
             if (selectedElement) {
-                selectedElement.style.background = 'red'; // Вернуть цвет объекта
+                selectedElement.style.background = 'red'; 
             }
         }
     });
@@ -113,5 +113,5 @@ function init() {
     });
 }
 
-// Инициализация после загрузки страницы
+// Мб поможет
 document.addEventListener('DOMContentLoaded', init);
