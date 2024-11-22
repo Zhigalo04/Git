@@ -1,0 +1,49 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+canvas {
+    border: 1px solid #e82121;
+    cursor: crosshair;
+}
+select {
+    margin-bottom: 10px;
+}
+.color-button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #433b3b;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+.color-buttons {
+    display: flex;
+    margin-bottom: 10px;
+}
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #e82121; /* Красный фон */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #c61c1c; /* Темнее при наведении */
+}
+button:focus {
+    outline: none; /* Убираем обводку при фокусе */
+}
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}

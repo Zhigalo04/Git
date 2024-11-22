@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Подключение внешнего CSS файла -->
+    <title>Рисование на холсте</title>
+</head>
+<body>
+    <select id="shapeSelector">
+        <option value="circle">Круг</option>
+        <option value="rectangle">Прямоугольник</option>
+        <option value="oval">Овал</option>
+        <option value="pen">Перо</option>
+    </select>
+    <div class="color-buttons">
+        <div class="color-button" style="background-color: red;" data-color="red"></div>
+        <div class="color-button" style="background-color: green;" data-color="green"></div>
+        <div class="color-button" style="background-color: blue;" data-color="blue"></div>
+        <div class="color-button" style="background-color: yellow;" data-color="yellow"></div>
+        <div class="color-button" style="background-color: orange;" data-color="orange"></div>
+    </div>
+    <canvas id="drawingArea" width="1200" height="580"></canvas>
+    
+    <div class="control-buttons">
+        <button id="undoButton">←</button>
+        <button id="clearButton">Очистить холст</button>
+        <button id="redoButton">→</button>
+    </div>
+
+    <script src="script.js"></script> <!-- Подключение внешнего JavaScript файла -->
+</body>
+</html>
