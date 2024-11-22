@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Подключение внешнего CSS файла -->
+</head>
+<body>
+    <select id="shapeSelector">
+        <option value="circle">Круг</option>
+        <option value="rectangle">Прямоугольник</option>
+    </select>
+    <div class="color-buttons">
+        <div class="color-button" style="background-color: red;" data-color="red"></div>
+        <div class="color-button" style="background-color: green;" data-color="green"></div>
+        <div class="color-button" style="background-color: blue;" data-color="blue"></div>
+        <div class="color-button" style="background-color: yellow;" data-color="yellow"></div>
+        <div class="color-button" style="background-color: orange;" data-color="orange"></div>
+    </div>
+    <svg id="drawingArea" width="1200" height="600"></svg>
+
+    <script src="script.js"></script> <!-- Подключение внешнего JavaScript файла -->
+</body>
+</html>
