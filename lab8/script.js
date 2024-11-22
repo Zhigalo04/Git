@@ -6,7 +6,7 @@ const undoButton = document.getElementById('undoButton');
 const redoButton = document.getElementById('redoButton');
 let isDrawing = false;
 let startX, startY;
-let currentColor = 'red'; // Установите начальный цвет
+let currentColor = 'red';
 const shapes = [];
 const lines = [];
 let undoneLines = [];

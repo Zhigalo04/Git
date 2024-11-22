@@ -30,17 +30,17 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: #e82121; /* Красный фон */
+    background-color: #e82121;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 button:hover {
-    background-color: #c61c1c; /* Темнее при наведении */
+    background-color: #c61c1c;
 }
 button:focus {
-    outline: none; /* Убираем обводку при фокусе */
+    outline: none;
 }
 .control-buttons {
     display: flex;
