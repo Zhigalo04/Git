@@ -1,0 +1,107 @@
+body {
+    font-family: Arial;
+    line-height: 1.6;
+    margin: 20;
+    padding: 20;
+    display: flex;
+    justify-content: center;
+    background-color: #b2e0b9;
+}
+h1, h2, h3 {
+    color: #333333;
+}
+h5 {
+    font-weight: bold;
+    font-size: 17px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    background-color: #f2f2f2;
+}
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #000000;
+}
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    table {
+        font-size: 14px;
+    }
+}
+
+@font-face {
+    font-family: 'Myfont-Regular';
+    src: url('font/Myfont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AnotherFont';
+    src: url('font/beer-money12.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AnotherrFont';
+    src: url('font/teddy-bear.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.custom-font {
+    font-family: 'Myfont-Regular', sans-serif;
+    font-size: 40px;
+}
+
+.another-font {
+    font-family: 'AnotherFont', sans-serif;
+    font-size: 21px;
+}
+
+.anotherr-font {
+    font-family: 'AnotherrFont', sans-serif;
+    font-size: 21px;
+}
+
+.center {
+    text-align: center;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.left {
+    text-align: left;
+}
