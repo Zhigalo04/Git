@@ -1,0 +1,55 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  background: rgb(52, 206, 142);
+  height: 100px;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  line-height: 100px;
+  margin: 0;
+}
+
+.container {
+  display: flex; 
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+article {
+  flex: 1 1 calc(30% - 20px);
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px;
+  background: rgba(16, 233, 215, 0.178);
+}
+
+.right_column, .central_left{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.right_column {
+  flex-direction: column-reverse;
+  box-sizing: border-box;
+  flex: 0 1 33.3%; 
+  order: 2;
+}
+
+.central_left {
+  flex-direction: row;
+  flex: 1 1 50%;
+  order: 1;
+}
+
+.central_left article{
+  flex: 1 1 calc(50% - 20px);
+}

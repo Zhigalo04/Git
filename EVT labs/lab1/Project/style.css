@@ -26,19 +26,24 @@ table {
 table, th, td {
     border: 1px solid #ddd;
 }
-th, td {
+td {
     padding: 10px;
     text-align: left;
     background-color: #f2f2f2;
 }
 th {
+    padding: 10px;
     background-color: #f2f2f2;
+    text-align: center;
 }
 
 a {
     margin-right: 15px;
     text-decoration: none;
     color: #000000;
+}
+lang{
+    color: red;
 }
 @media (max-width: 600px) {
     body {
