@@ -1,0 +1,92 @@
+header {
+	position: fixed;
+	top: 0;
+	background-color: rgb(124, 208, 232);
+	width: 100%;
+    height: 50px;
+}
+
+body .wrapper {
+	max-width: 100% !important;
+	text-align: center;
+    padding-bottom: 50px;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	background-color: rgb(124, 208, 232);
+	width: 100%;
+    height: 50px;
+}
+
+footer a:hover {
+	cursor: default;
+}
+
+footer a {
+	padding: 2px;
+	text-decoration: underline !important;
+	color: #4800ff !important;
+}
+
+header, footer {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;             
+    font-weight: 600;
+    line-height: 1.5;
+
+}
+
+aside blockquote.blockquote {
+	font-weight: normal;
+	font-style: italic;
+}
+
+article.article p {
+	font-style: normal !important;
+}
+
+.article img + p::first-letter {
+	font-size: 2em;
+	color: rgb(187, 19, 19);
+	font-weight: bold;
+}
+
+.article:nth-of-type(odd) img {
+	float: left;
+}
+.article:nth-of-type(even) img {
+	float: right;
+}
+
+.article img {
+	min-height: 150px;
+}
+
+.word {
+	position: sticky;
+	top: 50px;
+	left: 0px;
+	width: 100px;
+}
+
+.word.first {
+	background-color: rgb(0, 255, 68);
+}
+.word.second {
+	background-color: rgb(18, 230, 74);
+	left: 100px;
+}
+.word.third {
+	background-color: rgb(24, 212, 74);
+	left: 200px;
+}
+.word.fourth {
+	background-color: rgb(38, 142, 66);
+	left: 300px;
+}
+.word.fifth {
+	background-color: rgb(0, 255, 68);
+	left: 400px;
+}
