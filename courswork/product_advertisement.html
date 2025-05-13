@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Объявление - AutoMarket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .product-gallery img {
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .product-gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        .main-image {
+            grid-column: span 2;
+        }
+        
+        .product-details {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .product-description {
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        
+        .specs-list {
+            margin-bottom: 30px;
+            list-style: none;
+        }
+        
+        .specs-list li {
+            margin-bottom: 10px;
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .specs-list strong {
+            display: inline-block;
+            width: 150px;
+            color: #2c3e50;
+        }
+        
+        .contact-seller {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .contact-seller:hover {
+            background-color: #2980b9;
+        }
+        
+        .seller-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Стили для полноэкранной галереи */
+        .fullscreen-gallery {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .close-gallery {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev-btn {
+            left: 30px;
+        }
+
+        .next-btn {
+            right: 30px;
+        }
+
+        .gallery-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+        }
+
+        /* Стили для модального окна с номером */
+        .contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-number {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .phone-number:hover {
+            background-color: #e9ecef;
+        }
+
+        .copy-icon {
+            margin-left: 10px;
+            color: #3498db;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .copy-notification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1001;
+            animation: fadeInOut 2.5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="container header-content">
+            <h1><a href="AutoMarket.html" class="logo-link">AutoMarket</a></h1>
+            <div class="account-dropdown">
+                <span id="username-display"></span>
+                <button class="account-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="login.html">Войти</a>
+                    <a href="register.html">Зарегистрироваться</a>
+                    <a href="favorites.html">Избранное</a>
+                    <div class="theme-switcher">
+                        <span>Тема: </span>
+                        <button id="lightThemeBtn">Светлая</button>
+                        <button id="darkThemeBtn">Тёмная</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="product-container" id="adContainer">
+            <!-- Контент будет загружен через JavaScript -->
+        </div>
+    </main>
+
+    <!-- Полноэкранная галерея -->
+    <div class="fullscreen-gallery">
+        <span class="close-gallery">&times;</span>
+        <button class="nav-btn prev-btn">&lt;</button>
+        <img class="fullscreen-image" src="" alt="">
+        <button class="nav-btn next-btn">&gt;</button>
+        <div class="gallery-counter"></div>
+    </div>
+
+    <!-- Модальное окно с номером -->
+    <div class="contact-modal">
+        <div class="contact-modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Контактный номер продавца</h3>
+            <div class="phone-number" id="seller-phone">
+                <!-- Номер будет добавлен через JavaScript -->
+                <i class="fas fa-copy copy-icon"></i>
+            </div>
+            <p>Нажмите на номер, чтобы скопировать</p>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copy-notification">
+        Номер скопирован в буфер обмена!
+    </div>
+
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>© 2025 AutoMarket. Все права защищены.</p>
+                <div style="text-align: right;">
+                    <a href="https://yandex.by/maps/-/CHvIeO9B" target="_blank" style="text-decoration: none; display: block; margin-bottom: 5px;">
+                        <i class="fas fa-map-marker-alt"></i> Мы находимся тут
+                    </a>
+                    <a href="tel:+79991234567" style="text-decoration: none; display: block;">
+                        <i class="fas fa-phone"></i> +375 (29) 316-06-78
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем ID объявления из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const adId = urlParams.get('id');
+            
+            if (!adId) {
+                window.location.href = 'AutoMarket.html';
+                return;
+            }
+            
+            // Загружаем данные объявления
+            const adData = JSON.parse(localStorage.getItem(`ad_${adId}`));
+            
+            if (!adData) {
+                window.location.href = 'AutoMarket.html';
+                return;
+            }
+            
+            // Отображаем объявление
+            const adContainer = document.getElementById('adContainer');
+            
+            // Генерируем HTML для галереи изображений
+            let galleryHTML = '';
+            adData.images.forEach((img, index) => {
+                if (index === 0) {
+                    galleryHTML += `<img src="${img.data}" alt="${adData.title}" class="main-image">`;
+                } else {
+                    galleryHTML += `<img src="${img.data}" alt="${adData.title}">`;
+                }
+            });
+            
+            // Генерируем HTML для спецификаций
+            let specsHTML = `
+                <li><strong>Год выпуска:</strong> ${adData.year}</li>
+                <li><strong>Двигатель:</strong> ${adData.engine}</li>
+                <li><strong>Коробка:</strong> ${adData.transmission}</li>
+                <li><strong>Пробег:</strong> ${adData.mileage} км</li>
+                <li><strong>Цвет:</strong> ${adData.color}</li>
+                <li><strong>Привод:</strong> ${adData.drive}</li>
+                <li><strong>Состояние:</strong> ${adData.condition}</li>
+            `;
+            
+            if (adData.vin) {
+                specsHTML += `<li><strong>VIN:</strong> ${adData.vin}</li>`;
+            }
+            
+            if (adData.fuel) {
+                specsHTML += `<li><strong>Расход топлива:</strong> ${adData.fuel} л/100км</li>`;
+            }
+            
+            specsHTML += `<li><strong>Кузов:</strong> ${adData.body}</li>`;
+            
+            // Вставляем весь HTML
+            adContainer.innerHTML = `
+                <div class="product-gallery">
+                    ${galleryHTML}
+                </div>
+                
+                <div class="product-details">
+                    <h2 class="product-title">${adData.title}</h2>
+                    <p class="product-price">${adData.price} $</p>
+                    
+                    <div class="product-description">
+                        <p>${adData.description}</p>
+                    </div>
+                    
+                    <ul class="specs-list">
+                        ${specsHTML}
+                    </ul>
+                    
+                    <div class="seller-info">
+                        <h3>Контактная информация</h3>
+                        <p><strong>Продавец:</strong> ${adData.seller}</p>
+                        <p><strong>Телефон:</strong> <span class="seller-phone">${adData.phone}</span></p>
+                        <p><strong>Дата публикации:</strong> ${new Date(adData.date).toLocaleDateString()}</p>
+                    </div>
+                    
+                    <button class="contact-seller">
+                        <i class="fas fa-phone-alt"></i> Связаться с продавцом
+                    </button>
+                    <button class="favorite-btn" style="margin-left: 15px;">
+                        <i class="far fa-heart"></i> В избранное
+                    </button>
+                </div>
+            `;
+
+            // Инициализация галереи изображений
+            const galleryImages = document.querySelectorAll('.product-gallery img');
+            const fullscreenGallery = document.querySelector('.fullscreen-gallery');
+            const fullscreenImage = document.querySelector('.fullscreen-image');
+            const closeBtn = document.querySelector('.close-gallery');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const galleryCounter = document.querySelector('.gallery-counter');
+            
+            let currentImageIndex = 0;
+            
+            galleryImages.forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    updateFullscreenImage();
+                    fullscreenGallery.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                fullscreenGallery.style.display = 'none';
+                document.body.style.overflow = '';
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+                updateFullscreenImage();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                updateFullscreenImage();
+            });
+            
+            fullscreenGallery.addEventListener('click', (e) => {
+                if (e.target === fullscreenGallery) {
+                    fullscreenGallery.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (fullscreenGallery.style.display === 'flex') {
+                    if (e.key === 'Escape') {
+                        fullscreenGallery.style.display = 'none';
+                        document.body.style.overflow = '';
+                    } else if (e.key === 'ArrowLeft') {
+                        prevBtn.click();
+                    } else if (e.key === 'ArrowRight') {
+                        nextBtn.click();
+                    }
+                }
+            });
+            
+            function updateFullscreenImage() {
+                const imgSrc = galleryImages[currentImageIndex].src;
+                fullscreenImage.src = imgSrc;
+                galleryCounter.textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
+            }
+
+            // Инициализация кнопки избранного
+            const favoriteBtn = document.querySelector('.favorite-btn');
+            if (favoriteBtn) {
+                const favorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+                const isFavorite = favorites.some(car => car.model === adData.title);
+                
+                if (isFavorite) {
+                    favoriteBtn.innerHTML = '<i class="fas fa-heart"></i> В избранном';
+                }
+                
+                favoriteBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    let favorites = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+                    
+                    if (this.innerHTML.includes('fas')) {
+                        this.innerHTML = '<i class="far fa-heart"></i> В избранное';
+                        favorites = favorites.filter(car => car.model !== adData.title);
+                    } else {
+                        this.innerHTML = '<i class="fas fa-heart"></i> В избранном';
+                        
+                        const carData = {
+                            image: adData.images[0].data,
+                            model: adData.title,
+                            specs: `${adData.year} год выпуска, ${adData.engine}, ${adData.transmission}, ${adData.mileage} км`,
+                            price: `${adData.price} $`,
+                            link: window.location.pathname
+                        };
+                        
+                        if (!favorites.some(car => car.model === carData.model)) {
+                            favorites.push(carData);
+                        }
+                    }
+                    
+                    localStorage.setItem('favoriteCars', JSON.stringify(favorites));
+                });
+            }
+
+            // Инициализация модального окна с номером телефона
+            const contactBtn = document.querySelector('.contact-seller');
+            const contactModal = document.querySelector('.contact-modal');
+            const closeModalBtn = document.querySelector('.close-modal');
+            const sellerPhoneElement = document.getElementById('seller-phone');
+            const copyNotification = document.getElementById('copy-notification');
+            const sellerPhone = adData.phone;
+            
+            if (contactBtn && contactModal) {
+                contactBtn.addEventListener('click', function() {
+                    sellerPhoneElement.innerHTML = `${sellerPhone} <i class="fas fa-copy copy-icon"></i>`;
+                    contactModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeModalBtn.addEventListener('click', function() {
+                    contactModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+                
+                contactModal.addEventListener('click', function(e) {
+                    if (e.target === contactModal) {
+                        contactModal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+                
+                sellerPhoneElement.addEventListener('click', function() {
+                    const phoneNumber = sellerPhone;
+                    const textarea = document.createElement('textarea');
+                    textarea.value = phoneNumber;
+                    textarea.style.position = 'fixed';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        
+                        if (successful) {
+                            copyNotification.style.display = 'block';
+                            setTimeout(() => {
+                                copyNotification.style.display = 'none';
+                            }, 2500);
+                        }
+                    } catch (err) {
+                        document.body.removeChild(textarea);
+                    }
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && contactModal.style.display === 'flex') {
+                        contactModal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

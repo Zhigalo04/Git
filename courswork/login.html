@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMarket - Вход</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .auth-btn:hover {
+            background-color: #2980b9;
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .auth-links a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        /* Темная тема для контейнера авторизации */
+.dark-theme .auth-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Заголовок формы */
+.dark-theme .auth-form h2 {
+    color: #e0e0e0;
+}
+
+/* Метки полей */
+.dark-theme .form-group label {
+    color: #e0e0e0;
+}
+
+/* Поля ввода */
+.dark-theme .form-group input {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+/* Кнопка авторизации */
+.dark-theme .auth-btn {
+    background-color: #1976d2;
+}
+
+.dark-theme .auth-btn:hover {
+    background-color: #1565c0;
+}
+
+/* Ссылки */
+.dark-theme .auth-links a {
+    color: #64b5f6;
+}
+
+.dark-theme .auth-links a:hover {
+    color: #42a5f5;
+    text-decoration: underline;
+}
+
+/* Плейсхолдеры */
+.dark-theme ::placeholder {
+    color: #aaa;
+    opacity: 1;
+}
+
+.dark-theme :-ms-input-placeholder {
+    color: #aaa;
+}
+
+.dark-theme ::-ms-input-placeholder {
+    color: #aaa;
+}
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="container header-content">
+            <h1><a href="AutoMarket.html" class="logo-link">AutoMarket</a></h1>
+            <div class="account-dropdown">
+                <span id="username-display"></span>
+                <button class="account-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="login.html">Войти</a>
+                    <a href="register.html">Зарегистрироваться</a>
+                    <a href="favorites.html">Избранное</a>
+                    <div class="theme-switcher">
+                        <span>Тема: </span>
+                        <button id="lightThemeBtn">Светлая</button>
+                        <button id="darkThemeBtn">Тёмная</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="auth-container">
+            <form class="auth-form" id="loginForm">
+                <h2>Вход в аккаунт</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="auth-btn">Войти</button>
+                <div class="auth-links">
+                    <p>Нет аккаунта? <a href="register.html">Зарегистрируйтесь</a></p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>© 2025 AutoMarket. Все права защищены.</p>
+                <div style="text-align: right;">
+                    <a href="https://yandex.by/maps/-/CHvIeO9B" target="_blank" style="text-decoration: none; display: block; margin-bottom: 5px;">
+                        <i class="fas fa-map-marker-alt"></i> Мы находимся тут
+                    </a>
+                    <a href="tel:+79991234567" style="text-decoration: none; display: block;">
+                        <i class="fas fa-phone"></i> +375 (29) 316-06-78
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+    
+                // Валидация данных
+                if (!email || !password) {
+                    alert('Все поля обязательны для заполнения!');
+                    return;
+                }
+    
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    // Успешная авторизация
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    
+                    // Перенаправление на главную с небольшим delay для UX
+                    setTimeout(() => {
+                        window.location.href = 'AutoMarket.html';
+                    }, 500);
+                } else {
+                    alert('Неверный email или пароль');
+                }
+            });
+    
+            // Проверка авторизации при загрузке страницы
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                window.location.href = 'AutoMarket.html';
+            }
+        });
+    </script>
+</body>
+</html>

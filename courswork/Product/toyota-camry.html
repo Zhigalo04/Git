@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toyota Camry - AutoMarket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .product-gallery img {
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .product-gallery img:hover {
+            transform: scale(1.03);
+        }
+        .main-image {
+            grid-column: span 2;
+        }
+        .product-details {
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .product-price {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .product-description {
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+        .specs-list {
+            margin-bottom: 30px;
+            list-style: none;
+        }
+        .specs-list li {
+            margin-bottom: 10px;
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .specs-list strong {
+            display: inline-block;
+            width: 150px;
+            color: #2c3e50;
+        }
+        .contact-seller {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        .contact-seller:hover {
+            background-color: #2980b9;
+        }
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Стили для полноэкранной галереи */
+.fullscreen-gallery {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.close-gallery {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prev-btn {
+    left: 30px;
+}
+
+.next-btn {
+    right: 30px;
+}
+
+.gallery-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 18px;
+}
+
+    /* Стили для модального окна с номером */
+.contact-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.phone-number {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.phone-number:hover {
+    background-color: #e9ecef;
+}
+
+.copy-icon {
+    margin-left: 10px;
+    color: #3498db;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.copy-notification {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1001;
+    animation: fadeInOut 2.5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="container header-content">
+            <h1><a href="../AutoMarket.html" class="logo-link">AutoMarket</a></h1>
+            <div class="account-dropdown">
+                <span id="username-display"></span>
+                <button class="account-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="../login.html">Войти</a>
+                    <a href="../register.html">Зарегистрироваться</a>
+                    <a href="../favorites.html">Избранное</a>
+                    <div class="theme-switcher">
+                        <span>Тема: </span>
+                        <button id="lightThemeBtn">Светлая</button>
+                        <button id="darkThemeBtn">Тёмная</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="product-container">
+            <div class="product-gallery">
+                <img src="../Images/Toyota Camry/Image 1.webp" alt="Toyota Camry" class="main-image">
+                <img src="../Images/Toyota Camry/Image 2.webp" alt="Toyota Camry">
+                <img src="../Images/Toyota Camry/Image 3.webp" alt="Toyota Camry">
+                <img src="../Images/Toyota Camry/Image 4.webp" alt="Toyota Camry">
+                <img src="../Images/Toyota Camry/Image 5.webp" alt="Toyota Camry">
+            </div>
+            
+            <div class="product-details">
+                <h2 class="product-title">Toyota Camry US Market VIII (XV70)</h2>
+                <p class="product-price">18 000 $</p>
+                
+                <div class="product-description">
+                    <p>Продается Toyota Camry 2020 года в отличном состоянии. Машина полностью обслужена, без ДТП, чистый салон, все системы работают исправно.</p>
+                    <p>Комплектация: люкс, кожаный салон, подогрев сидений, камера заднего вида, парктроники, климат-контроль, мультимедийная система с Apple CarPlay/Android Auto.</p>
+                </div>
+                
+                <ul class="specs-list">
+                    <li><strong>Год выпуска:</strong> 2020</li>
+                    <li><strong>Двигатель:</strong> 2.5 л (248 л.с.)</li>
+                    <li><strong>Коробка:</strong> Автомат</li>
+                    <li><strong>Пробег:</strong> 50 000 км</li>
+                    <li><strong>Цвет:</strong> Серебристый металлик</li>
+                    <li><strong>Привод:</strong> Передний</li>
+                    <li><strong>Состояние:</strong> Идеальное</li>
+                    <li><strong>VIN:</strong> JTNKARBZ0L0123456</li>
+                    <li><strong>Расход топлива:</strong> 7.8 л/100км</li>
+                    <li><strong>Кузов:</strong> Седан</li>
+                </ul>
+                
+                <button class="contact-seller">
+                    <i class="fas fa-phone-alt"></i> Связаться с продавцом
+                </button>
+                <button class="favorite-btn" style="margin-left: 15px;"><i class="far fa-heart"></i> В избранное</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>© 2025 AutoMarket. Все права защищены.</p>
+                <div style="text-align: right;">
+                    <a href="https://yandex.by/maps/-/CHvIeO9B" target="_blank" style="text-decoration: none; display: block; margin-bottom: 5px;">
+                        <i class="fas fa-map-marker-alt"></i> Мы находимся тут
+                    </a>
+                    <a href="tel:+79991234567" style="text-decoration: none; display: block;">
+                        <i class="fas fa-phone"></i> +375 (29) 316-06-78
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Полноэкранная галерея -->
+    <div class="fullscreen-gallery">
+        <span class="close-gallery">&times;</span>
+        <button class="nav-btn prev-btn">&lt;</button>
+        <img class="fullscreen-image" src="" alt="">
+        <button class="nav-btn next-btn">&gt;</button>
+        <div class="gallery-counter"></div>
+    </div>
+
+    <!-- Модальное окно с номером -->
+    <div class="contact-modal">
+        <div class="contact-modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Контактный номер продавца</h3>
+            <div class="phone-number" id="seller-phone">
+                +375 (44) 865-92-13
+                <i class="fas fa-copy copy-icon"></i>
+            </div>
+            <p>Нажмите на номер, чтобы скопировать</p>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copy-notification">
+        Номер скопирован в буфер обмена!
+    </div>
+
+    <script src="../car_script.js"></script>
+
+</body>
+</html>

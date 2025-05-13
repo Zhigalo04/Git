@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить объявление - AutoMarket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .add-form-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .add-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .image-upload input {
+            display: none;
+        }
+        
+        .image-upload label {
+            display: block;
+            cursor: pointer;
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .preview-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Темная тема для формы добавления объявления */
+.dark-theme .add-form-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.dark-theme .add-form h2 {
+    color: #e0e0e0;
+}
+
+.dark-theme .form-group label {
+    color: #e0e0e0;
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+.dark-theme .image-upload {
+    border-color: #444;
+    background-color: #2d2d2d;
+}
+
+.dark-theme .image-upload label {
+    color: #64b5f6;
+}
+
+.dark-theme .submit-btn {
+    background-color: #1976d2;
+}
+
+.dark-theme .submit-btn:hover {
+    background-color: #1565c0;
+}
+
+.dark-theme .remove-image {
+    background-color: #c0392b;
+}
+
+/* Дополнительные стили для лучшей читаемости */
+.dark-theme ::placeholder {
+    color: #aaa;
+}
+
+.dark-theme :-ms-input-placeholder {
+    color: #aaa;
+}
+
+.dark-theme ::-ms-input-placeholder {
+    color: #aaa;
+}
+        
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .add-form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="container header-content">
+            <h1><a href="AutoMarket.html" class="logo-link">AutoMarket</a></h1>
+            <div class="account-dropdown">
+                <span id="username-display"></span>
+                <button class="account-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="login.html">Войти</a>
+                    <a href="register.html">Зарегистрироваться</a>
+                    <a href="favorites.html">Избранное</a>
+                    <div class="theme-switcher">
+                        <span>Тема: </span>
+                        <button id="lightThemeBtn">Светлая</button>
+                        <button id="darkThemeBtn">Тёмная</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="add-form-container">
+            <form class="add-form" id="advertisementForm">
+                <h2>Добавить новое объявление</h2>
+                
+                <div class="form-group">
+                    <label for="car-title">Название автомобиля</label>
+                    <input type="text" id="car-title" required placeholder="Например: Toyota Camry 2020">
+                </div>
+                
+                <div class="form-group">
+                    <label for="car-price">Цена ($)</label>
+                    <input type="number" id="car-price" required placeholder="Например: 18000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="car-description">Описание автомобиля</label>
+                    <textarea id="car-description" required placeholder="Подробно опишите состояние автомобиля, комплектацию и особенности"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Фотографии автомобиля (минимум 1, максимум 6)</label>
+                    <div class="image-upload">
+                        <input type="file" id="imageUpload" accept="image/*" multiple>
+                        <label for="imageUpload"><i class="fas fa-cloud-upload-alt"></i> Выбрать фотографии</label>
+                        <div class="preview-images" id="imagePreview"></div>
+                    </div>
+                </div>
+                
+                <div class="two-columns">
+                    <div class="form-group">
+                        <label for="car-year">Год выпуска</label>
+                        <input type="number" id="car-year" required placeholder="Например: 2020">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-engine">Двигатель</label>
+                        <input type="text" id="car-engine" required placeholder="Например: 2.5 л (248 л.с.)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-transmission">Коробка передач</label>
+                        <select id="car-transmission" required>
+                            <option value="">Выберите тип</option>
+                            <option value="Автомат">Автомат</option>
+                            <option value="Механика">Механика</option>
+                            <option value="Робот">Робот</option>
+                            <option value="Вариатор">Вариатор</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-mileage">Пробег (км)</label>
+                        <input type="number" id="car-mileage" required placeholder="Например: 50000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-color">Цвет</label>
+                        <input type="text" id="car-color" required placeholder="Например: Серебристый металлик">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-drive">Привод</label>
+                        <select id="car-drive" required>
+                            <option value="">Выберите тип</option>
+                            <option value="Передний">Передний</option>
+                            <option value="Задний">Задний</option>
+                            <option value="Полный">Полный</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-condition">Состояние</label>
+                        <select id="car-condition" required>
+                            <option value="">Выберите состояние</option>
+                            <option value="Идеальное">Идеальное</option>
+                            <option value="Хорошее">Хорошее</option>
+                            <option value="Удовлетворительное">Удовлетворительное</option>
+                            <option value="Требует ремонта">Требует ремонта</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-vin">VIN</label>
+                        <input type="text" id="car-vin" placeholder="Например: JTNKARBZ0L0123456">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-fuel">Расход топлива (л/100км)</label>
+                        <input type="text" id="car-fuel" placeholder="Например: 7.8">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="car-body">Кузов</label>
+                        <select id="car-body" required>
+                            <option value="">Выберите тип</option>
+                            <option value="Седан">Седан</option>
+                            <option value="Хэтчбек">Хэтчбек</option>
+                            <option value="Универсал">Универсал</option>
+                            <option value="Внедорожник">Внедорожник</option>
+                            <option value="Кроссовер">Кроссовер</option>
+                            <option value="Купе">Купе</option>
+                            <option value="Кабриолет">Кабриолет</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="seller-phone">Контактный телефон</label>
+                    <input type="tel" id="seller-phone" required placeholder="+375 (XX) XXX-XX-XX">
+                </div>
+                
+                <button type="submit" class="submit-btn">Опубликовать объявление</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>© 2025 AutoMarket. Все права защищены.</p>
+                <div style="text-align: right;">
+                    <a href="https://yandex.by/maps/-/CHvIeO9B" target="_blank" style="text-decoration: none; display: block; margin-bottom: 5px;">
+                        <i class="fas fa-map-marker-alt"></i> Мы находимся тут
+                    </a>
+                    <a href="tel:+79991234567" style="text-decoration: none; display: block;">
+                        <i class="fas fa-phone"></i> +375 (29) 316-06-78
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageUpload = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            const form = document.getElementById('advertisementForm');
+            let uploadedImages = []; // Будем хранить base64 изображений
+        
+            // Обработка загрузки изображений
+            imageUpload.addEventListener('change', function() {
+                imagePreview.innerHTML = '';
+                uploadedImages = [];
+        
+                if (this.files.length > 6) {
+                    alert('Максимальное количество фотографий - 6');
+                    this.value = '';
+                    return;
+                }
+        
+                Array.from(this.files).forEach(file => {
+                    if (!file.type.match('image.*')) return;
+        
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        // Сохраняем изображение в base64
+                        uploadedImages.push({
+                            name: file.name,
+                            data: e.target.result // base64 строка
+                        });
+        
+                        const previewContainer = document.createElement('div');
+                        previewContainer.style.position = 'relative';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'preview-image';
+                        
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '×';
+                        removeBtn.onclick = function() {
+                            previewContainer.remove();
+                            uploadedImages = uploadedImages.filter(img => img.name !== file.name);
+                        };
+                        
+                        previewContainer.appendChild(img);
+                        previewContainer.appendChild(removeBtn);
+                        imagePreview.appendChild(previewContainer);
+                    };
+                    
+                    reader.readAsDataURL(file); // Читаем как base64
+                });
+            });
+        
+            // Обработка отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+        
+                // Проверка изображений
+                if (uploadedImages.length === 0) {
+                    alert('Пожалуйста, добавьте хотя бы одну фотографию автомобиля');
+                    return;
+                }
+        
+                // Проверка авторизации
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (!currentUser) {
+                    alert('Для добавления объявления необходимо войти в систему');
+                    window.location.href = 'login.html';
+                    return;
+                }
+        
+                // Создаем объект объявления
+                const adData = {
+                    id: 'ad-' + Math.random().toString(36).substr(2, 9),
+                    title: document.getElementById('car-title').value,
+                    price: document.getElementById('car-price').value + ' $',
+                    description: document.getElementById('car-description').value,
+                    year: document.getElementById('car-year').value,
+                    engine: document.getElementById('car-engine').value,
+                    transmission: document.getElementById('car-transmission').value,
+                    mileage: document.getElementById('car-mileage').value + ' км',
+                    color: document.getElementById('car-color').value,
+                    drive: document.getElementById('car-drive').value,
+                    condition: document.getElementById('car-condition').value,
+                    vin: document.getElementById('car-vin').value || '',
+                    fuel: document.getElementById('car-fuel').value || '',
+                    body: document.getElementById('car-body').value,
+                    phone: document.getElementById('seller-phone').value,
+                    images: uploadedImages, // Сохраняем base64 изображения
+                    date: new Date().toISOString(),
+                    seller: currentUser.username
+                };
+        
+                // Сохраняем объявление в localStorage
+                const ads = JSON.parse(localStorage.getItem('carAds')) || [];
+                ads.push(adData);
+                localStorage.setItem('carAds', JSON.stringify(ads));
+        
+                // Перенаправляем на главную страницу
+                window.location.href = 'AutoMarket.html';
+            });
+        });
+        </script>
+</body>
+</html>
